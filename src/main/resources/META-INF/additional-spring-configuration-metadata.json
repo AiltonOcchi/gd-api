@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "glandata-api.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "Tempo de expiração do Token"
+  },
+  {
+    "name": "glandata-api.jwt.secret",
+    "type": "java.lang.String",
+    "description": "String contendo palavra chave para algoritimo de autenticação"
+  }
+]}
