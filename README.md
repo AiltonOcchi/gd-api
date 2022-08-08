@@ -1,8 +1,8 @@
 # Glan Data Rest API
-Rest API Desenvolvida durante o treinamento da segunda turma de Java Web da Glan Data
+Rest API Desenvolvida durante o treinamento da 2º turma de Java Web na Glan Data
 
 ##  Sobre este projeto
-O objetivo deste treinamento é oferecer a base necessária para que o desenvolvedor possa identificar e criar novas API’s em Java com Spring Boot, de forma a escrever softwares facilmente reutilizáveis.
+O objetivo deste projeto é oferecer a base necessária de conhecimento para que o desenvolvedor possa identificar e criar novas API’s em Java com Spring Boot, de forma a escrever softwares facilmente reutilizáveis.
 
 ### Tecnologias / Recursos Utilizados
 - Java 11
