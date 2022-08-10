@@ -3,6 +3,8 @@ package br.com.gandata.api.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +13,7 @@ import lombok.Setter;
 
 @Schema(name = "Produto")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProdutoDto {
+public class ProdutoDto extends RepresentationModel<ProdutoDto>{
 	
 	@Getter @Setter
 	private Long id;

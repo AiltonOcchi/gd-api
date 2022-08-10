@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.NumberFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -31,7 +32,7 @@ import lombok.Setter;
 		uniqueConstraints = {@UniqueConstraint(name = "produto_nome_unique", columnNames = "nome")}
 		)
 @Schema( name = "Produto")
-public class ProdutoModel {
+public class ProdutoModel extends RepresentationModel<ProdutoModel> {
 	
 	public ProdutoModel() {
 	}

@@ -1,5 +1,8 @@
 package br.com.gandata.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +44,9 @@ public class ClienteController {
 	@GetMapping("")
 	@Operation(summary = "Lista todas os clientes cadastrados")
 	public ResponseEntity<List<ClienteModel>> listarTodos(){
-		return ResponseEntity.ok(clienteService.listarTodos());
+		List<ClienteModel>  listaClientes = clienteService.listarTodos();
+		listaClientes.forEach(c -> c.add(linkTo(methodOn(ClienteController.class).buscarPorId(c.getId())).withSelfRel()));
+		return ResponseEntity.ok(listaClientes);
 	}
 	
 	
@@ -77,7 +82,10 @@ public class ClienteController {
 	@Operation(summary = "Busca um cliente a partir do ID")
 	public ResponseEntity<ClienteModel> buscarPorId(@PathVariable Long idCliente){
 		return clienteService.buscarPorId(idCliente)
-				.map(c -> ResponseEntity.ok(c)).orElse(ResponseEntity.notFound().build());
+				.map(c -> { 
+					c.add(linkTo(methodOn(ClienteController.class).listarTodos()).withRel("Lista de Clientes"));
+					return ResponseEntity.ok(c);
+				}).orElse(ResponseEntity.notFound().build());
 	}
 	
 	
@@ -101,6 +109,14 @@ public class ClienteController {
 	public ResponseEntity<?> deletarCliente(@PathVariable Long idCliente){
 		return clienteService.deletar(idCliente) ? 
 				ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+	}
+	
+	/*
+	 * Mostra histórico de auditoria (revisões) do cliente
+	 */
+	@GetMapping("/auditoria/{idCliente}")
+	public List<String> auditoria(@PathVariable Long idCliente){
+		return clienteService.listaRevisoes(idCliente);
 	}
 }
 

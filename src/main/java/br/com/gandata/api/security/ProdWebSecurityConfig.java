@@ -47,20 +47,31 @@ public class ProdWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST).hasAnyRole("ADMIN","CADASTROS")
-		.antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-		.antMatchers(HttpMethod.POST,"/auth").permitAll()
+		http
+			.authorizeRequests()
+				.antMatchers(HttpMethod.POST,"/clientes/**").hasAnyRole("ADMIN","CADASTROS")
+				.antMatchers(HttpMethod.DELETE,"/clientes/**").hasAnyRole("ADMIN","CADASTROS")
+				
+				.antMatchers(HttpMethod.POST,"/categorias/**").hasAnyRole("ADMIN","CADASTROS")
+				.antMatchers(HttpMethod.DELETE,"/categorias/**").hasAnyRole("ADMIN","CADASTROS")
+				
+				.antMatchers(HttpMethod.POST,"/produtos/**").hasAnyRole("ADMIN","CADASTROS")
+				.antMatchers(HttpMethod.DELETE,"/produtos/**").hasAnyRole("ADMIN","CADASTROS")
+				
+				.antMatchers(HttpMethod.POST,"/auth").permitAll()
+				
+				.antMatchers("/docs","/swagger-ui/**","/v3/api-docs/**").permitAll()
+				.antMatchers("/actuator/**").permitAll()
+				
 		
-		.antMatchers("/docs","/swagger-ui/**", "/v3/api-docs**","/v3/api-docs/**").permitAll()
-		.antMatchers("/actuator/**").permitAll()
-		.anyRequest().authenticated()
-		
-		.and()
-		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		
-		.and()
-		.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService,usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+			.anyRequest()
+				.authenticated()
+			
+				.and()
+				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			
+				.and()
+				.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService,usuarioRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	

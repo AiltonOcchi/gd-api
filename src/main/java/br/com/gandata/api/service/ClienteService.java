@@ -2,6 +2,7 @@ package br.com.gandata.api.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -77,6 +78,15 @@ public class ClienteService {
 			clienteRepository.delete(c);
 			return true;
 		}).orElse(false);
+	}
+	
+	/*
+	 * Lista as revisões de auditoria do cliente
+	 */
+	public List<String> listaRevisoes(Long idCliente){
+		return clienteRepository.findRevisions(idCliente)
+				.stream().map(Object::toString)
+				.collect(Collectors.toList());
 	}
 
 }

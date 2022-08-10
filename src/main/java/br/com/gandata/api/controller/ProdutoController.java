@@ -1,5 +1,8 @@
 package br.com.gandata.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +45,12 @@ public class ProdutoController {
 	@GetMapping("")
 	@Operation(summary = "Lista todas os produtos cadastrados")
 	public ResponseEntity<List<ProdutoDto>> listarTodos(){
-		return ResponseEntity.ok(produtoService.listarTodos());
+		List<ProdutoDto> produtos = produtoService.listarTodos();
+		produtos.forEach(p -> {
+			p.add(linkTo(methodOn(ProdutoController.class).buscarPorId(p.getId())).withSelfRel());
+			p.getCategoria().add(linkTo(methodOn(CategoriaController.class).buscarPorId(p.getCategoria().getId())).withSelfRel());
+		});
+		return ResponseEntity.ok(produtos);
 	}
 	
 	
@@ -78,7 +86,11 @@ public class ProdutoController {
 	@Operation(summary = "Busca um produto a partir do ID")
 	public ResponseEntity<ProdutoDto> buscarPorId(@PathVariable Long idProduto){
 		return produtoService.buscarPorId(idProduto)
-				.map(c -> ResponseEntity.ok(c)).orElse(ResponseEntity.notFound().build());
+				.map(p -> { 
+					p.add(linkTo(methodOn(ProdutoController.class).listarTodos()).withRel("Lista de Produtos"));
+					p.getCategoria().add(linkTo(methodOn(CategoriaController.class).buscarPorId(p.getCategoria().getId())).withSelfRel());
+					return ResponseEntity.ok(p);
+				}).orElse(ResponseEntity.notFound().build());
 	}
 	
 	

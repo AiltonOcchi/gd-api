@@ -14,15 +14,18 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-
+@ToString
 @Entity
 @Table(name = "clientes",
 		indexes = {@Index(name="id_cliente", columnList = "id")},
@@ -32,7 +35,8 @@ import lombok.Setter;
 		}
 	)
 @Schema( name = "Cliente")
-public class ClienteModel {
+@Audited
+public class ClienteModel extends RepresentationModel<ClienteModel>{
 
 	public ClienteModel() {}
 	

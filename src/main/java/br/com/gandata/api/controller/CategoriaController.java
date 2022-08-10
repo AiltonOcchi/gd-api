@@ -1,5 +1,8 @@
 package br.com.gandata.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +48,9 @@ public class CategoriaController {
 	@Cacheable(value = "listaCategorias")
 	@Operation(summary = "Lista todas as categorias cadastradas")
 	public ResponseEntity<List<CategoriaDto>> listarTodos(){
-		return ResponseEntity.ok(categoriaService.listarTodos());
+		List<CategoriaDto> categorias = categoriaService.listarTodos();
+		categorias.forEach(c ->	c.add(linkTo(methodOn(CategoriaController.class).buscarPorId(c.getId())).withSelfRel()));
+		return ResponseEntity.ok(categorias);
 	}
 	
 	
@@ -82,7 +87,10 @@ public class CategoriaController {
 	@Operation(summary = "Busca uma categoria a partir do ID")
 	public ResponseEntity<CategoriaDto> buscarPorId(@PathVariable Long idCategoria){
 		return categoriaService.buscarPorId(idCategoria)
-				.map(c -> ResponseEntity.ok(c)).orElse(ResponseEntity.notFound().build());
+				.map(c -> {
+					c.add(linkTo(methodOn(CategoriaController.class).listarTodos()).withRel("Lista de Categorias"));
+					return ResponseEntity.ok(c);
+				 }).orElse(ResponseEntity.notFound().build());
 	}
 	
 	
@@ -106,8 +114,7 @@ public class CategoriaController {
 	@CacheEvict(value = "listaCategorias")
 	@Operation(summary = "Deleta uma categoria")
 	public ResponseEntity<?> deletarCategoria(@PathVariable Long idCategoria){
-		return (categoriaService.deletar(idCategoria)) ? 
-				ResponseEntity.noContent().build() : ResponseEntity.badRequest().build();
+		return new ResponseEntity<>(categoriaService.deletar(idCategoria));
 	}
 }
 

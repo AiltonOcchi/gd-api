@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.gandata.api.dto.CategoriaDto;
@@ -88,12 +89,12 @@ public class CategoriaService {
 	/*
 	 * Verifica se a categoria está vazia e deleta o registro	 
 	 */
-	public Boolean deletar(Long idCategoria) {
+	public HttpStatus deletar(Long idCategoria) {
 		return this.buscaCategoriaPorId(idCategoria).map(c -> {
 			if(c.getProdutos().isEmpty()) {
 				categoriaRepository.delete(c);
-				return true;
-			}return false;
-		}).orElse(false);
+				return HttpStatus.OK;
+			}return HttpStatus.BAD_REQUEST;
+		}).orElse(HttpStatus.NOT_FOUND);
 	}
 }
