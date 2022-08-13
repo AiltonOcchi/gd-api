@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.envers.Audited;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -32,6 +33,7 @@ import lombok.Setter;
 		uniqueConstraints = {@UniqueConstraint(name = "produto_nome_unique", columnNames = "nome")}
 		)
 @Schema( name = "Produto")
+@Audited
 public class ProdutoModel extends RepresentationModel<ProdutoModel> {
 	
 	public ProdutoModel() {

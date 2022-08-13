@@ -25,6 +25,6 @@ INSERT INTO produtos (nome, descricao, preco, categoria_id, data_cadastro) VALUE
 INSERT INTO produtos (nome, descricao, preco, categoria_id, data_cadastro) VALUES ('Porta Retrato de Mesa', 'Porta Retrato de Mesa 30x20cm', 25.00, 1, '2022-03-28');
 
 /*DADOS FICTICIOS GERADOS NA PLATAFORMA 4DEV*/
-INSERT INTO clientes (cpf, email, nome, data_nascimento) VALUES ('33111472949','kevin_ferreira@thibe.com.br','Kevin Sérgio Caio Ferreira','1960-06-24');
-INSERT INTO clientes (cpf, email, nome, data_nascimento) VALUES ('69895631090','alice_lais_nunes@portoweb.com.br','Alice Laís Nunes','1993-07-24');
-INSERT INTO clientes (cpf, email, nome, data_nascimento) VALUES ('42339999855','cesar.sergio.aparicio@vivo.com.br','César Sérgio Aparício','1980-05-06');
+INSERT INTO clientes (cpf, email, nome, data_nascimento , version) VALUES ('33111472949','kevin_ferreira@thibe.com.br','Kevin Sérgio Caio Ferreira','1960-06-24',0);
+INSERT INTO clientes (cpf, email, nome, data_nascimento, version) VALUES ('69895631090','alice_lais_nunes@portoweb.com.br','Alice Laís Nunes','1993-07-24',0);
+INSERT INTO clientes (cpf, email, nome, data_nascimento, version) VALUES ('42339999855','cesar.sergio.aparicio@vivo.com.br','César Sérgio Aparício','1980-05-06',0);

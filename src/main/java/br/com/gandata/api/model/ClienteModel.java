@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -36,6 +38,7 @@ import lombok.ToString;
 	)
 @Schema( name = "Cliente")
 @Audited
+//@AuditTable(value = "CLIENTE_AUDITORIA")
 public class ClienteModel extends RepresentationModel<ClienteModel>{
 
 	public ClienteModel() {}
@@ -44,6 +47,9 @@ public class ClienteModel extends RepresentationModel<ClienteModel>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Version
+	private Long version;
 	
 	@Getter @Setter
 	@Size(max = 70, message = "O nome não pode ter mais que 70 caracteres")
@@ -56,6 +62,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel>{
 	@NotBlank(message = "CPF não pode ser vazio")
 	private String cpf;
 	
+	@NotAudited
 	@Getter @Setter
 	@Email
 	private String email;
