@@ -10,5 +10,7 @@ import br.com.gandata.api.model.ClienteModel;
 public interface ClienteRepository extends JpaRepository<ClienteModel, Long>, RevisionRepository<ClienteModel, Long, Long>{
 	
 	Optional<ClienteModel>findByEmailOrCpf(String email, String cpf);
+	
+	Optional<ClienteModel>findByNome(String nome);
 
 }

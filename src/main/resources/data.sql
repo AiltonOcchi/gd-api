@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS auditoria;
+
 INSERT INTO roles (nome_role) VALUES ('ROLE_CADASTROS');
 INSERT INTO roles (nome_role) VALUES ('ROLE_FATURAMENTO');
 INSERT INTO roles (nome_role) VALUES ('ROLE_ADMIN');
