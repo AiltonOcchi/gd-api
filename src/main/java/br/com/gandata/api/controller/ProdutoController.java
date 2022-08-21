@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gandata.api.dto.ProdutoDto;
+import br.com.gandata.api.dto.ProdutoProjecao;
 import br.com.gandata.api.model.ProdutoModel;
 import br.com.gandata.api.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -115,6 +116,17 @@ public class ProdutoController {
 		return produtoService.deletar(idProduto) ? 
 				ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
+	
+	
+	/**
+	 * Lista todos os produtos utilizando projeção do spring Data
+	 */
+	@GetMapping("/projecao")
+	@Operation(summary = "Lista todos os produtos cadastrados com dados resumidos")
+	public ResponseEntity<List<ProdutoProjecao>> listarProdutosProjecao(){
+		return ResponseEntity.ok(produtoService.listarProdutosProjecao());
+	}
+	
 }
 
 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.gandata.api.dto.ProdutoDto;
+import br.com.gandata.api.dto.ProdutoProjecao;
 import br.com.gandata.api.model.ProdutoModel;
 import br.com.gandata.api.repository.ProdutoRepository;
 
@@ -87,5 +88,13 @@ public class ProdutoService {
 			produtoRepository.delete(p);
 			return true;
 		}).orElse(false);
+	}
+	
+	
+	/*
+	 * Lista todos os produtos utilizando Projecao
+	 */
+	public List<ProdutoProjecao> listarProdutosProjecao() {
+		return produtoRepository.findProdutosProjecao();
 	}
 }
