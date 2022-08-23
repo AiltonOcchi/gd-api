@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gandata.api.dto.ProdutoDto;
@@ -125,6 +126,17 @@ public class ProdutoController {
 	@Operation(summary = "Lista todos os produtos cadastrados com dados resumidos")
 	public ResponseEntity<List<ProdutoProjecao>> listarProdutosProjecao(){
 		return ResponseEntity.ok(produtoService.listarProdutosProjecao());
+	}
+	
+	
+	/**
+	 * Lista todos os produtos buscando por parâmetros
+	 */
+	@GetMapping("/buscarPorParametros")
+	@Operation(summary = "Lista todos os produtos buscando por parâmetros")
+	public ResponseEntity<List<ProdutoDto>> listarProdutosPorParametros(@RequestParam(required = false) String nomeProduto, 
+			@RequestParam(required = false) String nomeCategoria){
+		return ResponseEntity.ok(produtoService.listarProdutosPorParametros(nomeProduto, nomeCategoria));
 	}
 	
 }

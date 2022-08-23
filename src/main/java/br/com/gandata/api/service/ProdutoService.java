@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import br.com.gandata.api.dto.ProdutoDto;
 import br.com.gandata.api.dto.ProdutoProjecao;
 import br.com.gandata.api.model.ProdutoModel;
+import br.com.gandata.api.repository.ProdutoCustomRepository;
 import br.com.gandata.api.repository.ProdutoRepository;
 
 @Service
@@ -20,6 +23,9 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ProdutoCustomRepository produtoCustomRepository;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -96,5 +102,15 @@ public class ProdutoService {
 	 */
 	public List<ProdutoProjecao> listarProdutosProjecao() {
 		return produtoRepository.findProdutosProjecao();
+	}
+
+	/*
+	 * Lista todos os produtos buscando por parametros
+	 */
+	@Transactional
+	public List<ProdutoDto> listarProdutosPorParametros(String nomeProduto, String nomeCategoria) {
+		return produtoCustomRepository.buscarPorParametros(nomeProduto, nomeCategoria)
+				.stream()
+				.map(p -> modelMapper.map(p, ProdutoDto.class)).collect(Collectors.toList());
 	}
 }
