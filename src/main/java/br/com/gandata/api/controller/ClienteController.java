@@ -3,6 +3,7 @@ package br.com.gandata.api.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +119,33 @@ public class ClienteController {
 	public List<String> auditoria(@PathVariable Long idCliente){
 		return clienteService.listaRevisoes(idCliente);
 	}
+	
+	
+	/**
+	 * Lista todos os clientes
+	 */
+	@GetMapping("/exampleOf")
+	@Operation(summary = "Lista todas os clientes cadastrados com example Of")
+	public ResponseEntity<List<ClienteModel>> listarTodosComExampleOf(){
+		
+		ClienteModel clienteModel = new  ClienteModel();
+		clienteModel.setNome("Kevin Sérgio Caio Ferreira");
+		clienteModel.setDataNascimento(LocalDate.of(1960, 6, 24));
+		
+		
+		List<ClienteModel>  listaClientes = clienteService.listarTodos(clienteModel);
+		listaClientes.forEach(c -> c.add(linkTo(methodOn(ClienteController.class).buscarPorId(c.getId())).withSelfRel()));
+		return ResponseEntity.ok(listaClientes);
+	}
+	
+	
+	@GetMapping("/specification")
+	@Operation(summary = "Busca clientes dinâmico usando specification")
+	public ResponseEntity<List<ClienteModel>> listarComSpecification(ClienteModel cliente){
+		List<ClienteModel>  listaClientes = clienteService.listarComSpecification(cliente);
+		return ResponseEntity.ok(listaClientes);
+	}
+	
 }
 
 

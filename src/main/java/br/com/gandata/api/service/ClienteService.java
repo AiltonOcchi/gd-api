@@ -5,12 +5,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import br.com.gandata.api.model.ClienteModel;
 import br.com.gandata.api.repository.ClienteRepository;
+import br.com.gandata.api.specification.SpecificationCliente;
 
 @Service
 public class ClienteService {
@@ -23,6 +26,24 @@ public class ClienteService {
 	 */
 	public List<ClienteModel> listarTodos() {
 		return clienteRepository.findAll();
+	}
+	
+	/*
+	 * Lista todos os clientes com example of
+	 */
+	public List<ClienteModel> listarTodos(ClienteModel cliente) {
+		return clienteRepository.findAll(Example.of(cliente));
+	}
+	
+	/*
+	 * Lista todos os clientes com example of
+	 */
+	public List<ClienteModel> listarComSpecification(ClienteModel cliente) {
+		return clienteRepository.findAll(Specification
+				.where(
+						SpecificationCliente.nomeLike(cliente.getNome())
+						.or(SpecificationCliente.dataNascimento(cliente.getDataNascimento()))
+						));
 	}
 
 	
@@ -88,5 +109,5 @@ public class ClienteService {
 				.stream().map(Object::toString)
 				.collect(Collectors.toList());
 	}
-
+	
 }
